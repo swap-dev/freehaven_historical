@@ -99,7 +99,7 @@ namespace cryptonote
 
   uint64_t get_governance_reward(uint64_t height, uint64_t base_reward)
   {
-    return base_reward / 20;
+    return 0;
   }
 
   bool get_deterministic_output_key(const account_public_address& address, const keypair& tx_key, size_t output_index, crypto::public_key& output_key)
@@ -159,15 +159,6 @@ namespace cryptonote
       ", fee " << fee);
 #endif
 
-    uint64_t governance_reward = 0;
-    if (hard_fork_version >= 3) {
-      if (already_generated_coins != 0)
-      {
-        governance_reward = get_governance_reward(height, block_reward);
-        block_reward -= governance_reward;
-      }
-    }
-
     block_reward += fee;
 
 
@@ -188,44 +179,6 @@ namespace cryptonote
     summary_amounts += out.amount = block_reward;
     out.target = tk;
     tx.vout.push_back(out);
-
-
-
-    if (hard_fork_version >= 3) {
-      if (already_generated_coins != 0)
-      {
-        keypair gov_key = get_deterministic_keypair_from_height(height);
-        add_tx_pub_key_to_extra(tx, gov_key.pub);
-
-        cryptonote::address_parse_info governance_wallet_address;
-
-        if (testnet) {
-          cryptonote::get_account_address_from_str(governance_wallet_address, testnet, ::config::testnet::GOVERNANCE_WALLET_ADDRESS);
-        } else {
-          cryptonote::get_account_address_from_str(governance_wallet_address, testnet, ::config::GOVERNANCE_WALLET_ADDRESS);
-        }
-
-
-        crypto::public_key out_eph_public_key = AUTO_VAL_INIT(out_eph_public_key);
-
-        if (!get_deterministic_output_key(governance_wallet_address.address, gov_key, 1 /* second output in miner tx */, out_eph_public_key))
-        {
-          MERROR("Failed to generate deterministic output key for governance wallet output creation");
-          return false;
-        }
-
-        txout_to_key tk;
-        tk.key = out_eph_public_key;
-
-        tx_out out;
-        summary_amounts += out.amount = governance_reward;
-        out.target = tk;
-        tx.vout.push_back(out);
-
-        CHECK_AND_ASSERT_MES(summary_amounts == (block_reward + governance_reward), false, "Failed to construct miner tx, summary_amounts = " << summary_amounts << " not equal total block_reward = " << (block_reward + governance_reward));
-      }
-    }
-
     tx.version = CURRENT_TRANSACTION_VERSION;
 
     //lock

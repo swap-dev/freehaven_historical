@@ -91,9 +91,9 @@ static const struct {
   time_t time;
 } mainnet_hard_forks[] = {
   // version 1 from the start of the blockchain
-  { 1, 1, 0, 1517398427 },
-  { 2, 38500, 0, 1522818000 },  // 4th April 2018
-  { 3, 89200, 0, 1528942500 }   // 14th June 2018
+  { 1, 1, 0, 1542228716 },
+  { 2, 100, 0, 1542238717 },
+  { 3, 150, 0, 1542248718 }
 };
 
 static const struct {
@@ -103,9 +103,9 @@ static const struct {
   time_t time;
 } testnet_hard_forks[] = {
   // version 1 from the start of the blockchain
-  { 1, 1, 0, 1517398420 },
-  { 2, 2510, 0, 1522713600 },
-  { 3, 2600, 0, 1528489596 }
+  { 1, 1, 0, 1542228716 },
+  { 2, 2510, 0, 1542238717 },
+  { 3, 2600, 0, 1542248718 }
 };
 
 //------------------------------------------------------------------
@@ -1092,32 +1092,6 @@ bool Blockchain::validate_miner_transaction(const block& b, size_t cumulative_bl
   {
     MERROR_VER("block size " << cumulative_block_size << " is bigger than allowed for this blockchain");
     return false;
-  }
-
-  if (version >= 3) {
-    if (already_generated_coins != 0)
-    {
-      uint64_t governance_reward = get_governance_reward(m_db->height(), base_reward);
-
-      if (b.miner_tx.vout.back().amount != governance_reward)
-      {
-        MERROR("Governance reward amount incorrect.  Should be: " << print_money(governance_reward) << ", is: " << print_money(b.miner_tx.vout.back().amount));
-        return false;
-      }
-
-      std::string governance_wallet_address_str;
-      if (m_testnet) {
-        governance_wallet_address_str = ::config::testnet::GOVERNANCE_WALLET_ADDRESS;
-      } else {
-        governance_wallet_address_str = ::config::GOVERNANCE_WALLET_ADDRESS;
-      }
-
-      if (!validate_governance_reward_key(m_db->height(), governance_wallet_address_str, b.miner_tx.vout.size() - 1, boost::get<txout_to_key>(b.miner_tx.vout.back().target).key, m_testnet))
-      {
-        MERROR("Governance reward public key incorrect.");
-        return false;
-      }
-    }
   }
 
   if(base_reward + fee < money_in_use)
