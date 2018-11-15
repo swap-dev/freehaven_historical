@@ -43,6 +43,9 @@
 
 #include "mnemonics/electrum-words.h"
 #include <boost/format.hpp>
+#ifdef WIN32
+#include <boost/locale.hpp>
+#endif
 #include <sstream>
 #include <unordered_map>
 
