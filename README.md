@@ -1,4 +1,6 @@
-# Haven
+# FreeHaven
+
+Copyright (c) 2018 Free Haven Protocol
 
 Copyright (c) 2017-2018 Haven Protocol
 
@@ -7,9 +9,8 @@ Portions Copyright (c) 2012-2013 The Cryptonote developers.
 
 ## Resources
 
-- Web: [havenprotocol.com](https://havenprotocol.com)
-- Reddit: [/r/havenprotocol](https://www.reddit.com/r/havenprotocol/)
-- GitHub: [https://github.com/havenprotocol/haven](https://github.com/havenprotocol/haven)
+- Web: [https://freehaven.coinscope.cc/](https://freehaven.coinscope.cc/)
+- GitHub: [https://github.com/freehavenprotocol/freehaven](https://github.com/freehavenprotocol/freehaven)
 
 
 ## Introduction
