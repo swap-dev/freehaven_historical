@@ -919,23 +919,10 @@ namespace cryptonote
   }
   //---------------------------------------------------------------
   bool get_block_longhash(const block& b, cn_pow_hash_v3 &ctx, crypto::hash& res)
-    {
+  {
   	block b_local = b; //workaround to avoid const errors with do_serialize
   	blobdata bd = get_block_hashing_blob(b);
-  	if(b_local.major_version == CRYPTONOTE_V3_POW_BLOCK_VERSION)
-  	{
-  		ctx.hash(bd.data(), bd.size(), res.data);
-  	}
-    else if(b_local.major_version == CRYPTONOTE_V2_POW_BLOCK_VERSION)
-  	{
-  		cn_pow_hash_v2 ctx_v2 = cn_pow_hash_v2::make_borrowed_v2(ctx);
-  		ctx_v2.hash(bd.data(), bd.size(), res.data);
-  	}
-  	else
-  	{
-      cn_pow_hash_v1 ctx_v1 = cn_pow_hash_v1::make_borrowed_v1(ctx);
-  		ctx_v1.hash(bd.data(), bd.size(), res.data);
-  	}
+  	ctx.hash(bd.data(), bd.size(), res.data);
   	return true;
   }
   //---------------------------------------------------------------

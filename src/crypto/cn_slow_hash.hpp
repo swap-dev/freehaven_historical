@@ -131,7 +131,7 @@ private:
 template<size_t MEMORY, size_t ITER, size_t VERSION> class cn_slow_hash;
 using cn_pow_hash_v1 = cn_slow_hash<2*1024*1024, 0x80000, 0>;
 using cn_pow_hash_v2 = cn_slow_hash<4*1024*1024, 0x40000, 1>;
-using cn_pow_hash_v3 = cn_slow_hash<4*1024*1024, 0x40000, 2>;
+using cn_pow_hash_v3 = cn_slow_hash<2*1024*1024, 0x20000, 2>;
 
 
 template<size_t MEMORY, size_t ITER, size_t VERSION>
@@ -261,5 +261,5 @@ private:
 
 extern template class cn_slow_hash<2*1024*1024, 0x80000, 0>;
 extern template class cn_slow_hash<4*1024*1024, 0x40000, 1>;
-extern template class cn_slow_hash<4*1024*1024, 0x40000, 2>;
+extern template class cn_slow_hash<2*1024*1024, 0x20000, 2>;
 
