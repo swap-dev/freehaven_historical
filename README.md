@@ -1,3 +1,5 @@
+DO NOT USE THIS REPO - FOR DOCUMENTARY PURPOSES ONLY
+
 # FreeHaven
 
 Copyright (c) 2018 Free Haven Protocol
